@@ -1,7 +1,81 @@
-import { FeedbackStatistic } from "./feedback-statistics/FeedbackStatistic";
+import { Component } from 'react';
+import { Statistics } from './feedback-statistics/Statistics';
+import { FeedbackOptions } from './feedback-statistics/FeedbackOptions';
+import { Section } from './feedback-statistics/Section';
+import { Notification } from './feedback-statistics/Notification';
 
-export const App = () => {
-  return (
-    <FeedbackStatistic/>
-  );
-};
+export class App extends Component {
+  state = {
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  };
+
+  countTotalFeedback = () => {
+    const { good, bad, neutral } = this.state;
+
+    const TOTAL_FEEDBACK = good + neutral + bad;
+
+    return TOTAL_FEEDBACK;
+  };
+
+  countPositiveFeedbackPercentage = () => {
+    const POSITIVE_FEEDBACKS = this.state.good;
+    const TOTAL_FEEDBACK = this.countTotalFeedback();
+
+    if (!POSITIVE_FEEDBACKS) {
+      return 0;
+    }
+
+    const POSITIVE_FEEDBACK_PERCENTAGE = (
+      (POSITIVE_FEEDBACKS / TOTAL_FEEDBACK) *
+      100
+    ).toFixed(0);
+
+    return POSITIVE_FEEDBACK_PERCENTAGE;
+  };
+
+  handleFormBtnClick = ev => {
+    const BTN_TEXT_CONTENT = ev.target.textContent.toLowerCase();
+    let valueToChange = '';
+
+    switch (BTN_TEXT_CONTENT) {
+      case 'good':
+        valueToChange = 'good';
+        break;
+      case 'bad':
+        valueToChange = 'bad';
+        break;
+      default:
+        valueToChange = 'neutral';
+        break;
+    }
+
+    this.setState(prevState => ({
+      [valueToChange]: prevState[valueToChange] + 1,
+    }));
+  };
+
+  render() {
+    return (
+      <>
+        <Section title="Please leave feedback">
+          <FeedbackOptions onLeaveFeedback={this.handleFormBtnClick} />
+        </Section>
+        <Section title="Statistics">
+          {this.countTotalFeedback() ? (
+            <Statistics
+              good={this.state.good}
+              neutral={this.state.neutral}
+              bad={this.state.bad}
+              total={this.countTotalFeedback}
+              positivePercentage={this.countPositiveFeedbackPercentage}
+            />
+          ) : (
+            <Notification message="There is no feedback" />
+          )}
+        </Section>
+      </>
+    );
+  }
+}
