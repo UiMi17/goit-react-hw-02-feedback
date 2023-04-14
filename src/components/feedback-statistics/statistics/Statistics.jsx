@@ -1,20 +1,15 @@
 import PropTypes from 'prop-types';
+import { StyledStatistics } from './StyledStatistics';
 
-export const Statistics = ({
-  good,
-  neutral,
-  bad,
-  total,
-  positivePercentage,
-}) => {
+const Statistics = ({ good, neutral, bad, total, positivePercentage }) => {
   return (
-    <ul>
+    <StyledStatistics>
       <p>Good: {good}</p>
       <p>Neutral: {neutral}</p>
       <p>Bad: {bad}</p>
       <p>Total: {total()}</p>
       <p>Positive feedback: {positivePercentage()}%</p>
-    </ul>
+    </StyledStatistics>
   );
 };
 
@@ -25,3 +20,5 @@ Statistics.propTypes = {
   total: PropTypes.func.isRequired,
   positivePercentage: PropTypes.func.isRequired,
 };
+
+export default Statistics;
