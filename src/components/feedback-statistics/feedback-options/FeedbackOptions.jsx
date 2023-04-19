@@ -4,18 +4,20 @@ import {
   StyledFeedbackBtn,
 } from './StyledFeedbackOptions';
 
-const FeedbackOptions = ({ onLeaveFeedback }) => {
+const FeedbackOptions = ({ options, onLeaveFeedback }) => {
   return (
     <StyledFeedbackOptions>
-      <StyledFeedbackBtn type="button" onClick={onLeaveFeedback}>
-        Good
-      </StyledFeedbackBtn>
-      <StyledFeedbackBtn type="button" onClick={onLeaveFeedback}>
-        Neutral
-      </StyledFeedbackBtn>
-      <StyledFeedbackBtn type="button" onClick={onLeaveFeedback}>
-        Bad
-      </StyledFeedbackBtn>
+      {options.map((option, index) => {
+        return (
+          <StyledFeedbackBtn
+            type="button"
+            onClick={onLeaveFeedback}
+            key={index}
+          >
+            {option}
+          </StyledFeedbackBtn>
+        );
+      })}
     </StyledFeedbackOptions>
   );
 };

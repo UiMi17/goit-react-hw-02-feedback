@@ -37,22 +37,9 @@ export class App extends Component {
 
   handleFormBtnClick = ev => {
     const BTN_TEXT_CONTENT = ev.target.textContent.toLowerCase();
-    let valueToChange = '';
-
-    switch (BTN_TEXT_CONTENT) {
-      case 'good':
-        valueToChange = 'good';
-        break;
-      case 'bad':
-        valueToChange = 'bad';
-        break;
-      default:
-        valueToChange = 'neutral';
-        break;
-    }
 
     this.setState(prevState => ({
-      [valueToChange]: prevState[valueToChange] + 1,
+      [BTN_TEXT_CONTENT]: prevState[BTN_TEXT_CONTENT] + 1,
     }));
   };
 
@@ -60,7 +47,7 @@ export class App extends Component {
     return (
       <>
         <Section title="Please leave feedback">
-          <FeedbackOptions onLeaveFeedback={this.handleFormBtnClick} />
+          <FeedbackOptions options={Object.keys(this.state)} onLeaveFeedback={this.handleFormBtnClick} />
         </Section>
         <Section title="Statistics">
           {this.countTotalFeedback() ? (
